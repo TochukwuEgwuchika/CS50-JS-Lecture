@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency converter</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', ()=>{
+            var myHeaders = new Headers();
+            myHeaders.append("apikey", "Jdv9pfIjZyZgcUapvgyHFuCcWgL4WZ94");
+            
+            var requestOptions = {
+              method: 'GET',
+              redirect: 'follow',
+              headers: myHeaders
+            };
+
+            document.querySelector('#form').onsubmit = ()=>{
+
+                amount = document.querySelector('#amount').value;
+                from = document.querySelector('#from').value.toUpperCase();
+                to = document.querySelector('#to').value.toUpperCase();
+
+                fetch("https://api.apilayer.com/fixer/convert?to="+to+"&from="+from+"&amount="+amount, requestOptions)
+              .then(response => response.json())
+              .then(data => {
+                  console.log(data);
+                  const answer = data.result.toFixed(2);
+                  document.querySelector('h4').innerHTML += answer + to
+                     })
+              .catch(error => console.log('error', error));
+
+             // console.log(result.result);
+
+              return false;
+
+                
+
+
+            }
+            
+            
+
+
+        })
+       
+    </script>
+</head>
+<body>
+    <h1>Convert</h1>
+    <form id="form">
+    <input type="number" id="amount">
+    <input type="text" maxlength="3" minlength="3" id="from" placeholder="From">
+    <input type="text" maxlength="3" minlength="3" id="to" placeholder="To">
+    <h4>Result: </h4>
+    <input type="submit">  
+    </form>
+</body>
+</html>
